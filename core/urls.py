@@ -10,5 +10,6 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(next_page='login'), name='logout'),
     path('groups/create/', views.create_group, name='create_group'),
     path('groups/', views.group_list, name='group_list'),
+    path('groups/<int:group_id>/', views.group_detail, name='group_detail'),
 ]
 

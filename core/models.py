@@ -10,3 +10,11 @@ class StudyGroup(models.Model):
 
     def __str__(self):
         return self.name
+    
+class GroupMember(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    group = models.ForeignKey(StudyGroup, on_delete=models.CASCADE)
+    joined_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('user', 'group')

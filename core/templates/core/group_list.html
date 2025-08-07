@@ -11,7 +11,7 @@
         <ul class="list-group">
             {% for group in groups %}
             <li class="list-group-item">
-                <strong>{{ group.name }}</strong><br>
+                <strong><a href="{% url 'group_detail' group.id %}">{{ group.name }}</a></strong><br>
                 {{ group.description }}<br>
                 <small>Created by {{ group.created_by.username }} on {{ group.created_at|date:"M d, Y"}}</small>
             </li>

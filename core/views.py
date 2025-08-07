@@ -3,9 +3,10 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth import login
 from .forms import UserRegisterForm
-from .models import StudyGroup
+from .models import StudyGroup, GroupMember
 from .forms import StudyGroupForm
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404
 
 def home(request):
     return HttpResponse("Welcome to Collaborative Learning Platform!")
@@ -42,3 +43,15 @@ def create_group(request):
 def group_list(request):
     groups = StudyGroup.objects.all().order_by('-created_at')
     return render(request, 'core/group_list.html', {'groups':groups})
+
+
+def group_detail(request, group_id):
+    group = get_object_or_404(StudyGroup, id=group_id)
+    members = GroupMember.objects.filter(group=group)
+    is_member = request.user.is_authenticated and members.filter(user=request.user).exists()
+
+    return render(request, 'core/group_detail.html',{
+        'group': group,
+        'members': members,
+        'is_member': is_member
+    })
